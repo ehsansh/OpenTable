@@ -29,6 +29,16 @@ export default function Home() {
                                 Find your table for any occasion
                             </h1>
                         </div>
+                        <div className='text-left text-lg  py-3 m-auto flex justify-center '>
+                            <input
+                                type='text'
+                                className='rounded mr-3 p-2 w-[450px]'
+                                placeholder='state, city or town'
+                            />
+                            <button className='rounded bg-red-600 px-9 py-2 text-white'>
+                                Let's go
+                            </button>
+                        </div>
                     </div>
                 </main>
             </main>
