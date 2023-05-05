@@ -1,5 +1,4 @@
 import NavBar from '@/app/components/NavBar';
-
 import Header from './components/Header';
 import RestaurantNavbar from './components/RestaurantNavbar';
 import Title from './components/Title';
@@ -15,7 +14,6 @@ export default function RestaurantDetails() {
             <main className='max-w-screen-2xl m-auto bg-white'>
                 <NavBar />
                 <Header />
-                {/* DESCRIPTION PORTION */}
                 <div className='flex m-auto w-2/3 justify-between items-start 0 -mt-11'>
                     <div className='bg-white w-[70%] rounded p-3 shadow'>
                         <RestaurantNavbar />
@@ -29,9 +27,6 @@ export default function RestaurantDetails() {
                         <ReservationCard />
                     </div>
                 </div>
-                {/* DESCRIPTION PORTION */} {/* RESERVATION CARD PORTION */}{' '}
-                {/* RESERVATION
-    CARD PORTION */}
             </main>
         </main>
     );
