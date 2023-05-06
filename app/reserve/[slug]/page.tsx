@@ -2,6 +2,11 @@ import NavBar from '@/app/components/NavBar';
 import Header from './components/Header';
 import Form from './components/Form';
 
+export const metadata = {
+    title: 'Reserve Restaurant',
+    description: 'Reserve Restaurant',
+};
+
 export default function Reserve() {
     return (
         <div className='border-t h-screen'>

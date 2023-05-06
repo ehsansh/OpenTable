@@ -1,5 +1,10 @@
 import Header from './components/Header';
 
+export const metadata = {
+    title: 'Milesstone Grill Restaurant',
+    description: 'Milesstone Grill Restaurant',
+};
+
 export default function RestaurantLayout({
     children,
 }: {

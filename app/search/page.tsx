@@ -3,6 +3,11 @@ import Header from './components/Header';
 import RestaurantCard from './components/RestaurantCard';
 import SearchSideBar from './components/SearchSideBar';
 
+export const metadata = {
+    title: 'Search Restaurant',
+    description: 'Search Restaurant',
+};
+
 export default function Search() {
     return (
         <>
