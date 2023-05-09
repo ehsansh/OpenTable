@@ -40,7 +40,7 @@ export default async function Search({
     searchParams: { city: string };
 }) {
     const restaurants = await fetchRestaurantsByCity(searchParams.city);
-    console.log(restaurants);
+
     return (
         <>
             <Header />
@@ -49,7 +49,9 @@ export default async function Search({
                 <div className='w-5/6'>
                     <h3></h3>
                     {restaurants.length ? (
-                        <RestaurantCard />
+                        restaurants.map(restaurant => (
+                            <RestaurantCard restaurant={restaurant} />
+                        ))
                     ) : (
                         <p>Sorry, no restaurants found.</p>
                     )}
