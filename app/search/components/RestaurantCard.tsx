@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Cuisine, Location, PRICE } from '@prisma/client';
+import { Cuisine, Location, PRICE, Review } from '@prisma/client';
 import Price from '@/app/components/Price';
+import { calculateReviewRatingAverage } from '@/utils/calculateReviewRatingAverage';
 
 interface Restaurant {
     id: number;
@@ -10,6 +11,7 @@ interface Restaurant {
     location: Location;
     price: PRICE;
     slug: string;
+    reviews: Review[];
 }
 
 export default function RestaurantCard({
@@ -17,6 +19,14 @@ export default function RestaurantCard({
 }: {
     restaurant: Restaurant;
 }) {
+    const renderRatingText = () => {
+        const rating = calculateReviewRatingAverage(restaurant.reviews);
+        if (rating > 4) return 'Awesome';
+        if (rating > 3) return 'Good';
+        if (rating > 2) return 'Average';
+        return '';
+    };
+
     return (
         <div className='border-b flex pb-5 ml-4'>
             <img
@@ -30,7 +40,7 @@ export default function RestaurantCard({
                 </Link>
                 <div className='flex items-start'>
                     <div className='flex mb-2'>*****</div>
-                    <p className='ml-2 text-sm'>Awesome</p>
+                    <p className='ml-2 text-sm'> {renderRatingText()} </p>
                 </div>
                 <div className='mb-9'>
                     <div className='font-light flex text-reg'>
