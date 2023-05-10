@@ -25,7 +25,7 @@ export default function RestaurantCard({
                 className='w-44 rounded h-36'
             />
             <div className='pl-5'>
-                <Link href='/restaurant/milestones'>
+                <Link href={`/restaurant/${restaurant.slug}`}>
                     <h2 className='text-3xl  capitalize'> {restaurant.name}</h2>
                 </Link>
                 <div className='flex items-start'>
