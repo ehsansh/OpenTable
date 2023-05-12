@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+import bcrypt from 'bcrypt';
 
 export default async function handler(
     req: NextApiRequest,
@@ -66,15 +67,15 @@ export default async function handler(
         });
 
         if (userWithEmail) {
-            return res
-                .status(400)
-                .json({
-                    errorMessage: 'Email is associated with another account',
-                });
+            return res.status(400).json({
+                errorMessage: 'Email is associated with another account',
+            });
         }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         res.status(200).json({
-            hello: 'body',
+            hello: hashedPassword,
         });
     }
 }
