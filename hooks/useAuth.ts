@@ -1,12 +1,12 @@
 import { AuthenticationContext } from '@/app/context/AuthContext';
 import axios from 'axios';
+import { getCookie } from 'cookies-next';
 import { useContext } from 'react';
 
 const useAuth = () => {
     const { data, error, loading, setAuthState } = useContext(
         AuthenticationContext
     );
-
     const signin = async (
         {
             email,
