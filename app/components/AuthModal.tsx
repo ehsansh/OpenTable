@@ -9,6 +9,7 @@ import AuthModalInputs from './AuthModalInputs';
 import useAuth from '@/hooks/useAuth';
 import { AuthenticationContext } from '@/app/context/AuthContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Alert } from '@mui/material';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -100,6 +101,11 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
                         </div>
                     ) : (
                         <div className='p-2 h-[500px]'>
+                            {error && (
+                                <Alert className='mb-4' severity='error'>
+                                    {error}
+                                </Alert>
+                            )}
                             <div className='uppercase font-bold text-center pb-2 border-b mb-b'>
                                 <p className='text-sm'>
                                     {renderContent('Sign In', 'Create Account')}
