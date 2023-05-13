@@ -44,7 +44,55 @@ const useAuth = () => {
             });
         }
     };
-    const signup = async () => {};
+    const signup = async (
+        {
+            email,
+            password,
+            firstName,
+            lastName,
+            city,
+            phone,
+        }: {
+            email: string;
+            password: string;
+            firstName: string;
+            lastName: string;
+            city: string;
+            phone: string;
+        },
+        handleClose: () => void
+    ) => {
+        setAuthState({
+            loading: true,
+            data: null,
+            error: null,
+        });
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/api/auth/signup',
+                {
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    city,
+                    phone,
+                }
+            );
+            setAuthState({
+                loading: false,
+                data: response.data,
+                error: null,
+            });
+            handleClose();
+        } catch (error: any) {
+            setAuthState({
+                loading: false,
+                data: null,
+                error: error.response.data.errorMessage,
+            });
+        }
+    };
 
     return {
         signin,

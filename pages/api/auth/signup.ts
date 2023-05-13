@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import bcrypt from 'bcrypt';
 import * as jose from 'jose';
-
+import { setCookie } from 'cookies-next';
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -96,8 +96,14 @@ export default async function handler(
             .setExpirationTime('24h')
             .sign(secret);
 
+        setCookie('jwt', token, { req, res, maxAge: 3600 });
+
         return res.status(200).json({
-            token,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            email: user.email,
+            phone: user.phone,
+            city: user.city,
         });
     }
     return res.status(404).json('Unkown endpoint');
