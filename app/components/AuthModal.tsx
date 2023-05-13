@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInputs';
 import useAuth from '@/hooks/useAuth';
-
+import { AuthenticationContext } from '@/app/context/AuthContext';
+import CircularProgress from '@mui/material/CircularProgress';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -24,6 +25,8 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { signin } = useAuth();
+
+    const { loading, error, data } = useContext(AuthenticationContext);
 
     const renderContent = (signinContent: string, signupContent: string) => {
         return isSignin ? signinContent : signupContent;
@@ -91,33 +94,39 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
                 aria-describedby='modal-modal-description'
             >
                 <Box sx={style}>
-                    <div className='p-2'>
-                        <div className='uppercase font-bold text-center pb-2 border-b mb-b'>
-                            <p className='text-sm'>
-                                {renderContent('Sign In', 'Create Account')}
-                            </p>
+                    {loading ? (
+                        <div className='py-24 px-2 h-[500px] flex justify-center'>
+                            <CircularProgress />
                         </div>
-                        <div className='w-5/6 m-auto'>
-                            <h2 className='text-2xl font-light text-center'>
-                                {renderContent(
-                                    'Log Into Your Account',
-                                    'Create Your OpenTable Account'
-                                )}
-                            </h2>
-                            <AuthModalInputs
-                                inputs={inputs}
-                                handleChangeInput={handleChangeInput}
-                                isSignin={isSignin}
-                            />
-                            <button
-                                onClick={handleClick}
-                                disabled={disabled}
-                                className='uppercase bg-red-600 w-full text-white p-3 rounded text-sm pb-5 disabled:bg-gray-400'
-                            >
-                                {renderContent('Sign In', 'Create Account')}
-                            </button>
+                    ) : (
+                        <div className='p-2 h-[500px]'>
+                            <div className='uppercase font-bold text-center pb-2 border-b mb-b'>
+                                <p className='text-sm'>
+                                    {renderContent('Sign In', 'Create Account')}
+                                </p>
+                            </div>
+                            <div className='w-5/6 m-auto'>
+                                <h2 className='text-2xl font-light text-center'>
+                                    {renderContent(
+                                        'Log Into Your Account',
+                                        'Create Your OpenTable Account'
+                                    )}
+                                </h2>
+                                <AuthModalInputs
+                                    inputs={inputs}
+                                    handleChangeInput={handleChangeInput}
+                                    isSignin={isSignin}
+                                />
+                                <button
+                                    onClick={handleClick}
+                                    disabled={disabled}
+                                    className='uppercase bg-red-600 w-full text-white p-3 rounded text-sm pb-5 disabled:bg-gray-400'
+                                >
+                                    {renderContent('Sign In', 'Create Account')}
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </Box>
             </Modal>
         </div>
