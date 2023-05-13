@@ -2,8 +2,6 @@
 
 import { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInputs';
 import useAuth from '@/hooks/useAuth';
@@ -24,22 +22,20 @@ const style = {
 export default function AuthModal({ isSignin }: { isSignin: boolean }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
     const { signin, signup } = useAuth();
-
     const { loading, error } = useContext(AuthenticationContext);
-
     const renderContent = (signinContent: string, signupContent: string) => {
         return isSignin ? signinContent : signupContent;
     };
-
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputs({
             ...inputs,
             [e.target.name]: e.target.value,
         });
     };
-
     const [inputs, setInputs] = useState({
         firstName: '',
         lastName: '',

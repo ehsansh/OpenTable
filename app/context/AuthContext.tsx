@@ -36,7 +36,7 @@ export default function AuthContext({
     children: React.ReactNode;
 }) {
     const [authState, setAuthState] = useState<State>({
-        loading: true,
+        loading: false,
         data: null,
         error: null,
     });
@@ -51,7 +51,7 @@ export default function AuthContext({
             const jwt = getCookie('jwt');
             if (!jwt) {
                 return setAuthState({
-                    loading: true,
+                    loading: false,
                     data: null,
                     error: null,
                 });
@@ -64,9 +64,7 @@ export default function AuthContext({
                     },
                 }
             );
-
             axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
-
             setAuthState({
                 loading: false,
                 data: response.data,
