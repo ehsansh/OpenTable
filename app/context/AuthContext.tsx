@@ -1,32 +1,32 @@
 'use client';
-import useAuth from '@/hooks/useAuth';
+
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { useState, createContext, SetStateAction, useEffect } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
 interface User {
     id: number;
     firstName: string;
     lastName: string;
+    email: string;
     city: string;
     phone: string;
-    email: string;
 }
 
 interface State {
     loading: boolean;
-    data: User | null;
     error: string | null;
+    data: User | null;
 }
 
 interface AuthState extends State {
-    setAuthState: React.Dispatch<SetStateAction<State>>;
+    setAuthState: React.Dispatch<React.SetStateAction<State>>;
 }
 
 export const AuthenticationContext = createContext<AuthState>({
     loading: false,
-    data: null,
     error: null,
+    data: null,
     setAuthState: () => {},
 });
 
@@ -36,26 +36,28 @@ export default function AuthContext({
     children: React.ReactNode;
 }) {
     const [authState, setAuthState] = useState<State>({
-        loading: false,
+        loading: true,
         data: null,
         error: null,
     });
 
     const fetchUser = async () => {
         setAuthState({
-            loading: true,
             data: null,
             error: null,
+            loading: true,
         });
         try {
             const jwt = getCookie('jwt');
+
             if (!jwt) {
                 return setAuthState({
-                    loading: false,
                     data: null,
                     error: null,
+                    loading: false,
                 });
             }
+
             const response = await axios.get(
                 'http://localhost:3000/api/auth/me',
                 {
@@ -64,17 +66,19 @@ export default function AuthContext({
                     },
                 }
             );
+
             axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+
             setAuthState({
-                loading: false,
                 data: response.data,
                 error: null,
+                loading: false,
             });
         } catch (error: any) {
             setAuthState({
-                loading: false,
                 data: null,
                 error: error.response.data.errorMessage,
+                loading: false,
             });
         }
     };
@@ -84,7 +88,12 @@ export default function AuthContext({
     }, []);
 
     return (
-        <AuthenticationContext.Provider value={{ ...authState, setAuthState }}>
+        <AuthenticationContext.Provider
+            value={{
+                ...authState,
+                setAuthState,
+            }}
+        >
             {children}
         </AuthenticationContext.Provider>
     );
