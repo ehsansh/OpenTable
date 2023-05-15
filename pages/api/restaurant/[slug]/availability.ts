@@ -93,5 +93,11 @@ export default async function handler(
         });
     });
 
+    const availabilities = searchTimesWithTables.map(t => {
+        const sumSeats = t.tables.reduce((sum, table) => {
+            return sum + table.seats;
+        }, 0);
+    });
+
     return res.json({ searchTimes, bookings, searchTimesWithTables });
 }
