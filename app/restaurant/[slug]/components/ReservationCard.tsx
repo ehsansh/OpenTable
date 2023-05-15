@@ -5,6 +5,8 @@ import { partySize as partySizes, times } from '../../../../data';
 
 import DatePicker from 'react-datepicker';
 import useAvailabilities from '@/hooks/useAvailabilities';
+import { CircularProgress } from '@mui/material';
+import Link from 'next/link';
 
 export default function ReservationCard({
     openTime,
@@ -110,9 +112,36 @@ export default function ReservationCard({
                 <button
                     onClick={handleClick}
                     className='bg-red-600 rounded w-full px-4 text-white font-bold h-16'
+                    disabled={loading}
                 >
-                    Find a Time
+                    {loading ? (
+                        <CircularProgress color='inherit' />
+                    ) : (
+                        'Find a Time'
+                    )}
                 </button>
+                {data && data.length ? (
+                    <div className='mt-4'>
+                        <p className='text-reg'>Select a time</p>
+                        <div className='flex flex-wrap mt-2'>
+                            {data.map(time => {
+                                return time.available ? (
+                                    <Link
+                                        className='bg-red-600 cursor-pointer p-2 w-24 text-center text-white mb-3 rounded mr-3'
+                                        href={`/reserve/${slug}?date=${day}&T${time.time}&partySize=${partySize}`}
+                                    >
+                                        {/* <p className='text-sm font-bold'>
+                                            
+                                        </p> */}
+                                        {time.time}
+                                    </Link>
+                                ) : (
+                                    <p className='bg-gray-300 p-2 w-24 mb-3 rounded mr-3 '></p>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ) : null}
             </div>
         </div>
     );
