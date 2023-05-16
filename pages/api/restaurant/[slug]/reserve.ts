@@ -80,6 +80,22 @@ export default async function handler(
         else tablesCount[4].push(table.id);
     });
 
+    const tablesToBook: number[] = [];
+    let seatsRemaining = parseInt(partySize);
+    while (seatsRemaining > 0) {
+        if (seatsRemaining >= 3) {
+            if (tablesCount[4].length) {
+                tablesToBook.push(tablesCount[4][0]);
+                tablesCount[4].shift();
+                seatsRemaining = seatsRemaining - 4;
+            } else {
+                tablesToBook.push(tablesCount[4][0]);
+                tablesCount[4].shift();
+                seatsRemaining = seatsRemaining - 4;
+            }
+        }
+    }
+
     return res.json({
         searchTimesWithTables,
     });
